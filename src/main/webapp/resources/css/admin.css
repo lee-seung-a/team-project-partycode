@@ -1,0 +1,507 @@
+
+*{margin: 0; padding: 0; list-style: none;}
+  
+ /* admin_index */
+  :root{
+    --admin_menu_width: 235px;
+    --admin_detail_tr: 700px;
+    --admin_detail_th: 150px;
+    --admin_detail_td: 550px;
+
+    --admin_munu_background: #040414;
+    --admin_menu_font_color: rgb(107, 107, 107);
+    --admin_munu_background_hover: #0f0f2e;
+    --admin_menu_font_color_hover: rgb(128, 123, 123);
+    
+    --admin_dashboard_background: rgb(241, 241, 241);
+    --admin_dashboard_table: rgb(255, 255, 255);
+    --admin_dashboard_table_border: rgb(228, 241, 236);
+    
+    --admin_detail_table :#edf0f5;
+
+    --admin_doughnut1: #BDC3C7;
+    --admin_doughnut2: #9B59B6;
+    --admin_doughnut3: #E74C3C;
+    --admin_doughnut4: #26B99A;
+    --admin_doughnut5: #3498DB;
+  }
+
+  .side_wrap {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--admin_menu_width);
+  }
+  /* 메뉴바 옆으로 밀어낼 것 추가 */
+  .admin_dashboard, .admin_common, .admin_faq_qna ,.admin_point_log, .admin_common_detail {
+    margin-left: var(--admin_menu_width);
+  }
+
+
+  .admin_none_border {
+    border: none;
+  }
+  .admin_none_border:focus {
+    border-color: #ccc; 
+    box-shadow: none;
+  }
+  
+
+  .admin_menubar {
+    width: var(--admin_menu_width);
+    height: 1300px;
+    background-color: var(--admin_munu_background);
+    float: left;
+  }
+  .admin_menubar .menubar_img img {
+    width :220px;
+  }
+  .admin_menubar .menu li { 
+    list-style: none; 
+    padding-right: 10px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+  }
+  .admin_menubar .menu > li:hover{
+    background-color: var(--admin_munu_background_hover);
+    color: var(--admin_menu_font_color_hover);
+    text-decoration: none
+  }
+  .admin_menubar .menu > li a{
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    font-weight: 550;
+    color: var(--admin_menu_font_color);
+    text-align: left;
+    margin-left: 10px;
+    line-height: 15px;
+    font-size: 15px;
+  }
+  .admin_menubar .menu > li a img{
+    height: 25px;
+    margin-right: 10px;
+  }
+  .admin_menubar .menu .drop {
+    margin-left: 30px; 
+    height: 0px; 
+    overflow: hidden;
+  }
+  .admin_menubar .menu .drop_on {
+    height: 100%;
+  }
+  body{
+    background-color: var(--admin_dashboard_background);
+  }
+
+
+
+  /* dashboard */
+  .admin_dashboard .admin_dashboard_top{
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+  .admin_dashboard_top .total_number{
+    overflow: hidden;
+  }
+  .admin_dashboard_top .total_number_list {
+    float :left;
+    display: inline;
+    margin-bottom: 20px;
+    padding-right: 80px;
+  }
+  .admin_dashboard_top .total_number_list .thisweek {
+    font-size: 10px;
+  }
+  .admin_dashboard_top .total_number_list .thisweek > span {
+    color: var(--admin_munu_background);
+    font-size: 12px;
+  }
+  .admin_dashboard_top .count {
+    font-size: 35px;
+    line-height: 47px;
+    font-weight: 600;
+  }
+  
+  
+  .admin_dashboard .title{
+    font-size: 25px;
+    font-weight: 550;
+    margin-bottom: 20px;
+  }
+  .admin_dashboard .row > div:not(:first-child){
+    padding: 15px;
+    background-color: var(--admin_dashboard_table);
+    border: 1px solid var(--admin_dashboard_table_border);
+    border-radius: 5px;
+    margin: 20px;
+  }
+  .admin_dashboard .top_party{
+    width: 100%;
+    margin: 0px;
+  }
+  .admin_dashboard .top_party .progress_wrap{
+    overflow: hidden;
+    line-height: 100%;
+  }
+  .admin_dashboard .top_party .progress_wrap > div{
+    display: inline;
+    float: left;
+    margin :7px
+  }
+  .admin_dashboard .progress_wrap .topfive{
+    width: 30%;
+    font-size: 15px;
+  }
+  .admin_dashboard .progress_wrap .progress{
+    width: 60%;
+  }
+  .admin_dashboard .progress-bar{
+    background-color: var(--admin_munu_background);
+  }
+
+  .admin_dashboard .re_activ{
+    overflow : hidden;
+  }
+  .admin_dashboard .re_activ_content_list_box{
+    overflow: hidden;
+    margin-bottom: 30px;
+  }
+  .admin_dashboard .count_bottom{
+    font-size: 10px;
+  }
+  .admin_dashboard .box_title{
+    text-align: left;
+  }
+  .admin_dashboard .box_title a{
+    color: var(--admin_munu_background);
+  }
+  .admin_dashboard .box_status a{
+    color: black;
+    font-weight: 550;
+  }
+  .admin_dashboard .box_status, .box_status {
+    text-align: right;
+    width: 100%;
+    height: 30px;
+  } 
+
+
+  .admin_dashboard .pop_theme .progress_table{
+    width: 100%;
+  }
+  .admin_dashboard .pop_theme .table_info th:nth-of-type(2){
+    text-align: right;
+  }
+  .admin_dashboard .pop_theme .table_info td:nth-of-type(2){
+    text-align: right;
+  }
+
+  .admin_dashboard .pop_theme .table_info td span{
+    display: block;
+    float: left;
+    height: 18px;
+    width: 18px;
+    margin-right: 8px;
+  }
+  .admin_dashboard .pop_theme .table_info tr:nth-of-type(2) span{
+    background-color: var(--admin_doughnut1);
+  }
+  .admin_dashboard .pop_theme .table_info tr:nth-of-type(3) span{
+    background-color: var(--admin_doughnut2);
+  }
+  .admin_dashboard .pop_theme .table_info tr:nth-of-type(4) span{
+    background-color: var(--admin_doughnut3);
+  }
+  .admin_dashboard .pop_theme .table_info tr:nth-of-type(5) span{
+    background-color: var(--admin_doughnut4);
+  }
+  .admin_dashboard .pop_theme .table_info tr:nth-of-type(6) span{
+    background-color: var(--admin_doughnut5);
+  }
+  
+
+
+/* admin_common 
+          - admin_users_select, 
+          - admin_users_update, 
+          - admin_approval, 
+          - admin_endlist, 
+          - admin_point_log, 
+          - admin_notice, 
+
+
+*/
+
+  .admin_common .common {
+    margin-left: 20px;
+    margin-top: 100px;
+  }
+  .admin_common .common h2 {
+    padding-bottom: 20px;
+    border-bottom: 1px solid black;
+  }
+   
+  .admin_common .common_title {
+    margin-bottom: 100px;
+  }
+  .admin_common .common_header {
+    margin-bottom: 50px;
+  }
+  .admin_common .common_header {
+    overflow: hidden;
+  }
+  .admin_common .common_header div:not(:last-of-type) {
+    display: inline;
+    float: right;
+  }
+  .admin_common .common_search_type {
+    margin-right: 10px;
+  }
+  
+  .admin_common .common_length{
+    float: left;
+    width: 130px;
+    margin-left: 10px;
+  }
+
+  .admin_common .common_header #search_date{
+  	overflow: hidden;
+  }
+  .admin_common .common_header #search_date > div{
+	float: left;
+  }
+    .admin_common .common_header #search_date > div:not(:nth-of-type(2)){
+  	width: 100px; 
+  	margin-right:10px;
+  }
+
+	
+
+  .admin_common .common_table {
+    margin: 10px;
+    border: 1px solid rgb(241, 241, 241);
+  }
+  .admin_common .common_table tbody tr:hover{
+    background-color: var(--admin_detail_table);
+  }
+
+
+  .admin_common button{
+    float: right;
+    margin-left: 5px;
+  }
+  .admin_common .common_footer > button {
+    border-style: hidden
+  }
+  /* .admin_common .common_footer .btn {
+    background-color: var(--admin_doughnut1)
+  } */
+
+  .admin_users_modal .modal_users_detail {
+    width: 80%;
+  }
+  .admin_users_modal .modal_users_detail .reserv{
+    border-top: 1px solid rgb(177, 177, 177);
+  }
+  .admin_users_modal .modal_users_detail th:not(.modal_users_reserv th){
+    font-weight: 600;
+    font-size: 15px;
+    padding: 5px;
+  }
+  .admin_users_modal .modal_users_detail .reserv th {
+    padding: 50px 5px 5px 5px;
+  }
+  .admin_users_modal .modal_users_reserv th{
+    padding: 5px;
+    text-align: left;
+    padding-right: 20px;
+  }
+  .admin_users_modal .modal_users_reserv td{
+    padding: 5px;
+    text-align: left;
+    padding-right: 20px;
+  }
+
+
+
+/* detail 
+  admin_users_update_detail
+  admin_notice_detail
+  admin_fnq_detail
+  admin_qna_detail
+*/
+  .admin_common_detail {
+	background-color: white;
+  }
+
+  .admin_common_detail input:read-only{
+	background-color: rgb(241, 241, 241);
+	font-weight: 550;
+  }
+  .admin_common_detail input:read-only{
+	cursor: default;
+  }
+  .admin_common_detail #emailSelect input{
+	width: 150px;
+	display: inline;
+  }
+  .admin_common_detail #emailSelect select{
+	width: 150px;
+ 	height: 32px; 
+	display: inline;
+  }
+  .admin_common_detail #adressSelect input:first-of-type{
+	width: 70px;
+	height: 34px;
+	text-align: center;
+	display: inline;
+	float: left;
+	font-size: 15px;
+  }
+  .admin_common_detail #adressSelect button{
+	background-color: var(--admin_detail_table);
+	display: inline;
+	margin-left: 10px;
+	margin-bottom: 20px;
+  } 
+  .admin_common_detail #adressSelect input:nth-of-type(2){
+	margin-bottom: 10px;
+  }
+
+  .admin_common_detail .common_detail {
+    margin-left: 20px;
+    margin-top: 100px;
+  }
+  .admin_common_detail .common_detail h2 {
+    padding-bottom: 20px;
+    border-bottom: 1px solid black;
+  }
+  .admin_common_detail .common_detail_title {
+    margin-bottom: 100px;
+  }
+  .admin_common_detail .common_detail_table {
+    margin: 10px;
+  }
+
+  .admin_common_detail .common_detail_footer{
+    margin-left: 600px;
+  }
+  .admin_common_detail button{
+    float: left;
+    margin-left: 5px;
+  }
+  .admin_common_detail .common_detail_footer > button {
+    border-style: hidden;
+  }
+  
+   
+  
+  .admin_common_detail .common_detail_table table{
+    width: var(--admin_detail_tr);
+  }
+  .admin_common_detail .common_detail_table th{
+    width: var(--admin_detail_th);
+  }
+  .admin_common_detail .common_detail_table th:first-of-type{
+    padding-right: 20px;
+    text-align: right;
+    background-color: var(--admin_detail_table);
+  }
+  .admin_common_detail .common_detail_table td{
+    width: var(--admin_detail_td);
+    font-size: 15px;
+  }
+  .admin_common_detail .common_detail_table textarea{
+    height: 300px; 
+    resize: none;
+    font-size: 15px;
+  }
+  .admin_common_detail .common_detail_table textarea:focus{
+    outline: none;
+  }
+
+  .admin_common_detail .common_detail_table input{
+    border: none;
+    width: var(--admin_detail_td);
+  }
+  .admin_common_detail .common_detail_table input:focus{
+    outline-style: none;
+  }
+  
+  
+  
+
+
+
+
+
+/* admin_faq_qna */
+
+.admin_faq_qna .faq_qna {
+  margin-left: 20px;
+  margin-top: 100px;
+}
+.admin_faq_qna .faq_qna_title h2 {
+  padding-bottom: 20px;
+  border-bottom: 1px solid black;
+}
+.admin_faq_qna .faq_title h3 {
+  padding-bottom: 5px;
+  border-bottom: 1px solid black;
+}
+
+ 
+.admin_faq_qna .faq_title {
+  margin-bottom: 5px;
+}
+.admin_faq_qna .faq_table {
+  margin-bottom: 5px;
+}
+
+.admin_faq_qna .qna_title h3 {
+  padding-bottom: 5px;
+  border-bottom: 1px solid black;
+}
+.admin_faq_qna .qna_title {
+  margin-bottom: 5px;
+}
+.admin_faq_qna .qna_table {
+  margin-bottom: 5px;
+}
+
+.admin_faq_qna .qna_header {
+  overflow: hidden;
+}
+.admin_faq_qna .qna_header div:not(:last-of-type) {
+  display: inline;
+  float: right;
+}
+.admin_faq_qna .qna_search_type {
+  margin-right: 10px;
+}
+
+.admin_faq_qna .qna_length{
+  float: left;
+  width: 130px;
+  margin-left: 10px;
+}
+
+.admin_faq_qna .qna_table {
+  margin: 10px;
+}
+.admin_faq_qna .qna_table tbody tr:hover{
+  background-color: #e4ecf1;
+}
+
+
+.admin_faq_qna button{
+  float: right;
+  margin-left: 5px;
+}
+.admin_faq_qna .faq_qna_footer > button {
+  border-style: hidden
+}
+
+
+

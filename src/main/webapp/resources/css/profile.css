@@ -1,0 +1,83 @@
+
+  
+  
+    a{
+    
+ a:link { color: red; text-decoration: none;}
+ a:visited { color: black; text-decoration: none;}
+ a:hover { color: blue; text-decoration: underline;}
+    }
+
+    .container { height:500px; background-color: rgb(251, 251, 251);}
+    /* border-left:10px solid black;  border-right:10px solid black; */
+   .wrapper{position: relative;}
+
+   .prophoto {
+      position: absolute; left:0px; top:0px;
+      width:550px;
+      height:500px;
+ 
+   }
+   .prophotoright{
+     position:absolute; left:0px; top:0px;
+     width:550px;
+     height:500px;
+     
+   }
+  
+   #userphoto {
+     width:400px;
+     height:400px;
+     /* padding-top:80px; */
+     position:absolute;
+     display:block;
+     margin: 0 auto;
+    left: 370px;
+    top: 50px;
+     border-radius: 50%;
+   }
+   .rightplace{
+     width:1130px;
+     height:166px;
+     
+    
+     padding:10px;
+     margin:0 auto;
+   }
+   .wrapper1{position:relative; }
+
+   .prophto1{position:absolute; left:0px;top:0px;
+    
+  width:1170px;  text-align: center;
+height:300px;}
+
+ .prothoname {text-align: center; padding:20px; font-size:19px;}
+
+ #con{height:60px; background-color: #e9ecef;
+  }
+li {display: inline;}
+li img{width:40px; height:40px; }  
+
+.texttop , .textbot {padding:5px; padding-top:20px; width:1100px; height:78px; text-align: center; font-size: 22px; font-weight: 500;
+font-family: Verdana, Geneva, Tahoma, sans-serif;}
+.texttop {border-bottom:1px solid rgb(209, 209, 209);}
+.texttop2{height:165px; text-align: center;}
+#logosm { width:40px; height:40px; margin:0px 20px; margin-top:80px;}
+#heart{position:absolute;left:85%; top: 80px; width: 40px;}
+#like{position: absolute; left:70%; top: 80px; font-size: 30px; font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-weight: bold;}
+.con2 {
+  padding-top: 100px;
+}
+
+th{
+  color: rgb(133, 132, 132);
+}
+
+
+.updateprofile{
+	
+			cursor: pointer;
+	
+	
+	
+}

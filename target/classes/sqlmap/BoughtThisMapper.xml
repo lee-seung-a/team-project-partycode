@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+  <mapper namespace="com.company.boughtthis.mapper.BoughtThisMapper">
+  
+    <insert id="insertibt">
+         
+insert into iboughtthis(
+this_no,your_pno,your_pcode,your_title,your_id,my_id,my_no,this_regdate,partyattend,remainpoint)
+values(this_no_seq.nextval,#{your_pno},#{your_pcode},#{your_title},#{your_id},#{my_id},#{my_no},sysdate,#{partyattend},#{remainpoint}-#{partyattend})
+    
+    </insert>
+    
+    <delete id="deleteibt">
+      delete from  iboughtthis where your_pno = #{your_pno} and my_id = #{my_id}
+    </delete>
+    
+  
+      
+      
+
+    
+    <insert id="chargeibt">
+     insert into iboughtthis(
+     this_no,my_id,chargedpoint,my_no,remainpoint)
+     values(this_no_seq.nextval,#{id},#{point}*100,#{uno},#{remainpoint}+#{point}*100)
+    
+    </insert>
+  
+  
+  </mapper>

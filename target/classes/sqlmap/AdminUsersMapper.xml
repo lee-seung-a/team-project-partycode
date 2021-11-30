@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+  <mapper namespace="com.company.admin_users.mapper.AdminUsersMapper">
+	<select id="inquiryList" resultType="UsersVO">
+		
+		select * 
+		from   (select rownum rn, users_select.*
+				from ( select u.*, this.your_title recentReserv
+		               from users u 
+		               left outer join (select a.*, b.your_title 
+                                        from ( select my_id, max(this_regdate) reg 
+                                               from iboughtthis 
+                                               group by my_id) a
+                                        inner join iboughtthis b
+                                        on a.reg = b.this_regdate) this
+	            	   on u.id = this.my_id
+			  		   where
+						<if test="searchType == 'all' ">
+								uno like '%' || #{searchName} || '%'
+							or	id like '%' || #{searchName} || '%'				
+							or	uname like '%' || #{searchName} || '%'
+							or	tellnum like '%' || #{searchName} || '%'											
+							or	email1 like '%' || #{searchName} || '%'
+							or	email2 like '%' || #{searchName} || '%'
+							or	addrZipNum like '%' || #{searchName} || '%'
+							or	addrBasic like '%' || #{searchName} || '%'
+							or	addrDetail like '%' || #{searchName} || '%'
+							or	authStatus like '%' || #{searchName} || '%'
+							or	point like '%' || #{searchName} || '%'
+						</if>
+				
+						<if test="searchType == 'uno' ">uno like '%' || #{searchName} || '%'</if>
+						<if test="searchType == 'uname' ">uname like '%' || #{searchName} || '%'</if>
+						<if test="searchType == 'regdate' ">regdate BETWEEN TO_DATE(#{searchName1}) AND TO_DATE(#{searchName2 }) </if>
+						<if test="searchType == null or searchType == '' ">1=1</if>
+	            	    order by u.uno desc ) users_select
+		) 
+		<![CDATA[
+		where rn > (#{pageNum}-1) * #{amount}
+		and rn <= #{pageNum} * #{amount}
+		]]>
+	</select>
+	
+	<select id="updateListDetail" resultType="UsersVO">
+		select * from users
+		where uno=#{uno}
+	</select>
+	
+	<update id="update">
+		update users
+		set uname = #{uname}
+		    , tellnum =  #{tellnum}
+		    , email1 = #{email1}
+		    , email2 = #{email2}
+		    , addrZipNum = #{addrZipNum}
+		    , addrBasic = #{addrBasic}
+		    , addrDetail = #{addrDetail}
+		    , point = #{point}
+		where uno=#{uno}
+	</update>
+	
+	<delete id="delete">
+		delete users
+		where uno=#{uno}
+	</delete>
+	
+	<select id="getTotal" resultType="int">
+		select count(*) from users
+		where
+		<if test="searchType == 'all' ">
+				uno like '%' || #{searchName} || '%'
+			or	id like '%' || #{searchName} || '%'				
+			or	uname like '%' || #{searchName} || '%'
+			or	tellnum like '%' || #{searchName} || '%'											
+			or	email1 like '%' || #{searchName} || '%'
+			or	email2 like '%' || #{searchName} || '%'
+			or	addrZipNum like '%' || #{searchName} || '%'
+			or	addrBasic like '%' || #{searchName} || '%'
+			or	addrDetail like '%' || #{searchName} || '%'
+			or	authStatus like '%' || #{searchName} || '%'
+			or	point like '%' || #{searchName} || '%'
+		</if>
+	
+		<if test="searchType == 'uno' ">uno like '%' || #{searchName} || '%'</if>
+		<if test="searchType == 'uname' ">uname like '%' || #{searchName} || '%'</if>
+		<if test="searchType == 'regdate' ">regdate BETWEEN TO_DATE(#{searchName1}) AND TO_DATE(#{searchName2 }) </if>
+		<if test="searchType == null or searchType == '' ">1=1</if>
+	</select>
+	
+  </mapper>

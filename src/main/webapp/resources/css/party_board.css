@@ -1,0 +1,82 @@
+ #myCarousel{ margin-top:400px;}
+   
+
+        *{list-style: none;}
+        body {  padding-right: 0px;  background-color:#f8f9fa; }
+      #container2{width:1300px; margin:0 auto;  margin-bottom: 50px; margin-top: 50px; background-color:#f8f9fa; }
+      
+      .thumbnail .img{width:500px; height:350px;}
+      .thumbnail img:hover{
+         
+          
+      }
+     
+      .thumbnail {background-color:#f8f9fa; ; border :2px  white; width:500px; height:511px; position:relative;  }
+      .col-sm-4 {margin:10px 0px; width:250px; }
+      @media screen {
+          .col-sm-4{min-width: none;}
+          
+      }
+      #colla { margin:20px;
+      }
+      .row{width:1800px; box-sizing: unset;}
+      .bg-1 {
+ background-color:#f8f9fa; 
+     position:relative;
+    color: #bdbdbd;
+  }
+ 
+   .btn { background-color: lightgray; margin-bottom:10px;  }
+   
+   .like{position:absolute; top:85%; left:80%; width: 30px; height: 30px;}
+   
+
+   
+
+.rightBar {position:absolute; top:5px; ; left:300px; width:400px; height:400px; }
+.rightBarcontainer div { font-size: 23px; font-style: italic;}
+
+.btn1 { font-size: 23px; font-style:normal;}
+
+.container {
+    padding: 2px 4px;
+}
+.text-center {}
+.leftcon {position: absolute; left:0px; top:1300px; box-shadow: 5px 5px 5px black;}
+.rightcon {position: absolute; left:0px; top:1300px;  box-shadow: 100px 5px 5px black;}
+.modal {text-align: center; }
+@media screen and (min-width: 900px) { 
+        .modal:before {
+                display: inline-block;
+                vertical-align: middle;
+                content: " ";
+                height: 100%;
+        }
+}
+.modal-dialog {
+        display: inline-block;
+        text-align: left;
+        vertical-align: middle;
+     
+}
+.modalIcon img {width: 72px; height: 72px;}
+.modalIcon {display: inline; width:200px; height:200px; margin:15px; position: relative;}
+.modalIconText { position:absolute; left:0px; top:60px; width:120px; font-weight: 900;}
+.modalIcon img:hover ~.modalIconText,.modalIcon img:hover {display:inline; }
+.modal-content {width:765px;   height:900px; margin-right:200px;}
+.modal-img{width: 763px; height:600px;}
+.modal-img img{width:100%; height:100%;}
+.modal-text{position:absolute; top:80%; left:0px;}
+*{font-family: sans-serif;}
+
+.modal2 {height:665px;}
+
+#carouselInner {width:900px; height:500px;}
+img{ 
+  
+  
+
+}
+#innerimg{
+  width:880px; height:500px; box-shadow: 10px 5px 5px black;
+}

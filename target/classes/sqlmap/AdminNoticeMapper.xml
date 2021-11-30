@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+  <mapper namespace="com.company.admin_notice.mapper.AdminNoticeMapper">
+	
+	<insert id="regist">
+		insert into notice(nno, nid, category, ntitle, ncontent,
+							uploadpath, fileloca, filename, filerealname)
+		values(notice_SEQ.nextval, 'admin',  #{category}, #{ntitle}, #{ncontent}
+				, #{uploadpath, jdbcType=VARCHAR}
+				, #{fileloca, jdbcType=VARCHAR}
+				, #{filename, jdbcType=VARCHAR}
+				, #{filerealname, jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="getList" resultType="NoticeVO">
+		select * 
+		from   (select rownum rn, a.* 
+				from  ( select * 
+		        		from notice 
+				        where
+						<if test="searchType == 'all' ">
+								ntitle like '%' || #{searchName} || '%'
+							or	ncontent like '%' || #{searchName} || '%'				
+						</if>
+						<if test="searchType == 'title' ">ntitle like '%' || #{searchName} || '%'</if>
+						<if test="searchType == 'content' ">ncontent like '%' || #{searchName} || '%'</if>
+						
+						<if test="searchType == null or searchType == '' ">1=1</if>
+				        
+				        order by nno desc) a 
+		)
+		<![CDATA[
+		where rn > (#{pageNum}-1) * #{amount}
+			and rn <= #{pageNum} * #{amount}
+		]]>
+	</select>
+	
+	<select id="getDetail" resultType="NoticeVO">
+		select * from notice 
+		where nno=#{nno}
+	</select>
+	
+	<update id="updateHit">
+		update notice 
+		set hit=hit+1 
+		where nno=#{nno}
+	</update>
+   
+	<update id="updateDetail">
+		update notice
+		set category = #{category}
+		    , ntitle =  #{ntitle}
+		    , ncontent = #{ncontent}
+		    
+		    , uploadpath =  #{uploadpath, jdbcType=VARCHAR}
+		    , fileloca = #{fileloca, jdbcType=VARCHAR}
+		    , filename =  #{filename, jdbcType=VARCHAR}
+		    , filerealname = #{filerealname, jdbcType=VARCHAR}
+		    
+		    , edit_date = sysdate
+		where nno=#{nno}
+	</update>
+     
+	<delete id="deleteNotice" >
+		delete notice
+		where nno=#{nno}
+	</delete>
+	
+	<select id="getTotal" resultType="int">
+		select count(*) from notice
+		where
+		<if test="searchType == 'all' ">
+				ntitle like '%' || #{searchName} || '%'
+			or	ncontent like '%' || #{searchName} || '%'				
+		</if>
+		<if test="searchType == 'title' ">ntitle like '%' || #{searchName} || '%'</if>
+		<if test="searchType == 'content' ">ncontent like '%' || #{searchName} || '%'</if>
+		
+		<if test="searchType == null or searchType == '' ">1=1</if>
+	</select>
+	
+  </mapper>

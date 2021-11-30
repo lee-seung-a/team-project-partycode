@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+  <mapper namespace="com.company.admin_point.mapper.AdminPointMapper">
+  
+   <select id="getList" resultType="AdminPointVO">
+      select * 
+      from   (select rownum rn, c.* 
+            from  ( select u.uno, b.* 
+                  from ( select a.my_id
+                           , nvl(a.chargedpoint,0) charge 
+                           , nvl(a.partyattend,0) use
+                           , nvl(p.ptitle,'') title
+                           , a.this_regdate
+                           , a.remainpoint
+                           , a.this_no
+                         from (select *
+                               from iboughtthis
+                               ) a
+                               
+                        
+                         left outer join party p
+                         on p.pno = a.your_pno) b
+                  left outer join users u
+                  on u.id = b.my_id
+                  order by this_no desc ) c
+             where
+            <if test="searchType == 'uno' ">uno like '%' || #{searchName} || '%'</if>
+            <if test="searchType == null or searchType == '' ">1=1</if>
+            
+            )
+      <![CDATA[
+      where rn > (#{pageNum}-1) * #{amount}
+         and rn <= #{pageNum} * #{amount}
+      ]]>
+      
+   </select>
+   
+   <select id="getTotal" resultType="int">
+      select count(*) 
+      from (  select u.uno, b.* 
+            from ( select a.my_id
+                     , nvl(a.chargedpoint,0) charge 
+                     , nvl(a.partyattend,0) use
+                     , nvl(p.ptitle,'') title
+                     , a.this_regdate
+                     , a.remainpoint
+                   from (select *
+                         from iboughtthis
+                         ) a
+                         
+                  
+                   left outer join party p
+                   on p.pno = a.your_pno) b
+            left outer join users u
+            on u.id = b.my_id
+      
+      )
+      where
+      <if test="searchType == 'uno' ">uno like '%' || #{searchName} || '%'</if>
+      <if test="searchType == null or searchType == '' ">1=1</if>
+   </select>
+   
+  </mapper>

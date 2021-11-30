@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.company.admin_app.mapper.AdminAppMapper">
+  
+  	<select id="getList" resultType="PartyBoardVO">
+  	 <![CDATA[
+    	 select*from(
+    	 select*from(
+		 select rownum as rn,
+			a.*
+			from
+			   (select *
+			   from PARTY where ]]>	
+			   
+			   <if test="searchType=='code' and searchName!=''">partycode like '%'||#{searchName}||'%'</if>
+			   <if test="searchType=='title' and searchName!=''">ptitle like '%'||#{searchName}||'%'</if>
+			   <if test="searchType=='writer' and searchName!=''">pid like '%'||#{searchName}||'%'</if>
+			   <if test="searchType=='theme' and searchName!=''">ptheme like '%'||#{searchName}||'%'</if>
+			   <if test="searchType==null">1=1</if>
+			   <if test="searchName=='' and searchType=='code'">1=1</if>
+			   <if test="searchName=='' and searchType==''">1=1</if>
+			   
+			   	<![CDATA[			
+			order by pno desc)  a)
+			where rn > (#{pageNum}-1)*#{amount} and  rn <= #{pageNum}*#{amount})
+			where padmin=1
+           ]]>               
+  	</select>
+  	
+  	<select id="getContent" resultType="PartyBoardVO">
+  		select * from PARTY where pno =#{pno}
+  	</select>
+  	
+    <select id="getTotal" resultType="int">
+       select count(*) as total from PARTY
+       where   <if test="searchType=='code' and searchName!=''">partycode like '%'||#{searchName}||'%'</if>
+			   <if test="searchType=='title' and searchName!=''">ptitle like '%'||#{searchName}||'%'</if>
+			   <if test="searchType=='writer' and searchName!=''">pid like '%'||#{searchName}||'%'</if>
+			   <if test="searchType=='theme' and searchName!=''">ptheme like '%'||#{searchName}||'%'</if>
+			   <if test="searchType==null or searchType=='' or searchName==null or searchName==''">1=1</if>
+    </select> 
+    
+    <update id="Update">
+    	update PARTY set padmin=0 where pno=#{pno}
+    </update> 	
+  	
+  </mapper>

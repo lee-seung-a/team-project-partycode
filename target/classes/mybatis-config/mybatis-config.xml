@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!-- 마이바티스의 부가적인 외부설정 -->
+<configuration>
+
+	<typeAliases>
+		<typeAlias type="com.company.command.PartyBoardVO"
+			alias="PartyBoardVO" />
+		<typeAlias type="com.company.command.UsersVO"
+			alias="UsersVO" />
+		<typeAlias type="com.company.command.QnaBoardVO"
+			alias="QnaBoardVO" />
+		<typeAlias type="com.company.command.IboughtthisVO"
+			alias="IboughtthisVO" />
+		<typeAlias type="com.company.command.ReviewVO"
+			alias="ReviewVO" />
+		<typeAlias type="com.company.command.SnsVO" alias="SnsVO" />
+		<typeAlias type="com.company.command.FollowVO"
+			alias="FollowVO" />
+
+		<typeAlias type="com.company.command.NoticeVO"
+			alias="NoticeVO" />
+		<typeAlias type="com.company.command.AdminDashboardVO"
+			alias="AdminDashboardVO" />
+		<typeAlias type="com.company.command.FaqBoardVO"
+			alias="FaqBoardVO" />
+		
+		<typeAlias type="com.company.command.AdminPointVO"
+			alias="AdminPointVO" />
+
+	</typeAliases>
+
+</configuration>

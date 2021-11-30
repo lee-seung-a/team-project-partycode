@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper
+	namespace="com.company.partyboard.mapper.PartyBoardMapper">
+
+
+	<select id="getList" resultType="PartyBoardVO">
+       <![CDATA[
+    	 select*from(
+		 select rownum as rn,
+			a.*
+			from
+			   (select *
+			   from party where ]]>
+
+		<if test="searchType=='ptitle' and searchName!=''">ptitle like '%'||#{searchName}||'%'</if>
+		<if test="searchType=='pid' and searchName!=''">pid like '%'||#{searchName}||'%'</if>
+		<if test="searchType=='pcontent' and searchName!=''">pcontent like '%'||#{searchName}||'%'</if>
+		<if test="searchType=='titcont' and searchName!=''">ptitle like '%'||#{searchName}||'%' or pcontent like
+			'%'||#{searchName}||'%'</if>
+		<if
+			test="searchType==null or searchType=='' or searchName==null or searchName==''">1=1</if>
+			   
+			   
+			  
+			    
+			   
+			   
+			   	<![CDATA[			
+			order by pno desc)  a)
+			where rn > (#{pageNum}-1)*#{amount} and  rn <= #{pageNum}*#{amount}
+           ]]>
+
+	</select>
+	<insert id="regist">
+		insert into party
+		(pno,ptitle,pid,ptheme,pgoal,pattend,pdate,pmax,pmin,pment,sno,plocation1,plocation2,plocation3,partycode,uploadpath,fileloca,filename,filerealname,padmin)
+		values(partyboard_seq.nextval,#{ptitle},#{pid},#{ptheme},#{pgoal},#{pattend},#{pdate},#{pmax},#{pmin},#{pment},#{sno},#{plocation1},#{plocation2},#{plocation3},#{partycode},#{uploadpath},#{fileloca},#{filename},#{filerealname},#{padmin})
+	</insert>
+
+
+
+
+	<select id="party_detail" resultMap="info">
+	select
+	*
+    from (select*from party left outer join iboughtthis on pno=your_pno) p  left  join review r on
+    p.pno = r.rpno   
+    where pno=#{pno}
+    order by revno desc
+
+	</select>
+	<resultMap type="PartyBoardVO" id="info">
+		<result property="pno" column="PNO" />
+		<result property="psum" column="psum"/>
+		<result property="ptitle" column="PTITLE" />
+		<result property="pid" column="PID" />
+		<result property="ptheme" column="PTHEME" />
+		<result property="pgoal" column="PGOAL" />
+		<result property="pattend" column="PATTEND" />
+		<result property="pdate" column="PDATE" />
+		<result property="pmax" column="PMAX" />
+		<result property="pment" column="PMENT" />
+		<result property="do_support" column="DO_SUPPORT" />
+		<result property="sno" column="SNO" />
+		<result property="plike" column="PLIKE" />
+		<result property="plocation1" column="PLOCATION1" />
+		<result property="plocation2" column="PLOCATION2" />
+		<result property="plocation3" column="PLOCATION3" />
+		<result property="report" column="REPORT" />
+		<result property="partycode" column="PARTYCODE" />
+		<result property="uploadpath" column="UPLOADPATH" />
+		<result property="fileloca" column="FILELOCA" />
+		<result property="filename" column="FILENAME" />
+		<result property="filerealname" column="FILEREALNAME" />
+		<result property="pac" column="pac" />
+		<result property="psc" column="psc" />
+		<result property="pcontent" column="pcontent"/>
+		
+		<collection property="reviewlist" resultMap="reviewlist" />
+        <collection property="ibtlist" resultMap="ibtlist" />
+	</resultMap>
+	<resultMap type="ReviewVO" id="reviewlist">
+		<result property="rpno" column="RPNO" />
+		<result property="revno" column="REVNO" />
+		<result property="revwriter" column="REVWRITER" />
+		<result property="revcontent" column="REVCONTENT" />
+		<result property="rating" column="RATING" />
+	</resultMap>
+    <resultMap type="IboughtthisVO" id="ibtlist" >
+       <result property="this_no" column="this_no" />
+       <result property="your_pcode" column="your_pcode"/>
+       <result property="your_pno" column="your_pno" />
+       <result property="your_id" column="your_id"/>
+       <result property="your_title" column="your_title"/>
+       <result property="my_id" column="my_id" />
+       <result property="my_no" column="my_no"/>
+       <result property="remainpoint" column="remainpoint"/>
+       <result property="partyattend" column="partyattend"/>
+       <result property="this_regdate" column="this_regdate"/>
+       
+    
+    </resultMap>
+     
+
+	<select id="getTotal" resultType="int">
+		select count(*) as total from party
+		where
+		<if test="searchType=='ptitle'">ptitle like '%'||#{searchName}||'%'</if>
+		<if test="searchType=='pid'">pid like '%'||#{searchName}||'%'</if>
+		<if test="searchType=='pcontent'">pcontent like '%'||#{searchName}||'%'</if>
+		<if test="searchType=='titcont'">ptitle like '%'||#{searchName}||'%' or pcontent like
+			'%'||#{searchName}||'%'</if>
+		<if test="searchType==null or searchType==''">1=1</if>
+
+	</select>
+
+	<insert id="registReview">
+
+		insert into review(rpno,revno,revwriter,revcontent,rating)
+		values(#{vo.rpno},revno_seq.nextval,#{vo.revwriter},#{vo.revcontent},#{vo.rating})
+
+	</insert>
+	
+	<delete id="reviewDelete">
+	 
+	 delete from review where revno=#{revno} 
+	 
+	</delete>
+	
+	<select id="getparty" resultType="PartyBoardVO">
+	select * from party where
+	<if test="searchName!=null">ptitle like '%'||#{searchName}||'%' or ptheme like '%'||#{searchName}||'%' or pid like '%'||#{searchName}||'%' or pment like '%'||#{searchName}||'%' </if>
+	
+	</select>
+	
+	<update id="partyup">
+ <choose>
+    <when test="uploadpath!=null">
+    update party 
+	    set
+	    ptitle=#{ptitle},
+	    pcontent=#{pcontent},
+	    ptheme=#{ptheme},
+	    pdate=#{pdate},
+	    pattend=#{pattend},
+	    pment=#{pment},
+	    plocation1=#{plocation1},
+	    plocation2=#{plocation2},
+	    plocation3=#{plocation3},
+	    uploadpath=#{uploadpath, jdbcType=VARCHAR},
+	    filerealname=#{filerealname, jdbcType=VARCHAR},
+	    fileloca=#{fileloca, jdbcType=VARCHAR},
+	    filename=#{filename, jdbcType=VARCHAR}
+	   
+	    where pno=#{pno}
+	   </when>
+	    <when test="uploadpath==null">    
+	    update party 
+	    set
+	    ptitle=#{ptitle},
+	    pcontent=#{pcontent},
+	    ptheme=#{ptheme},
+	    pdate=#{pdate},
+	    pattend=#{pattend},
+	    pment=#{pment},
+	    plocation1=#{plocation1},
+	    plocation2=#{plocation2},
+	    plocation3=#{plocation3}
+	        where pno=#{pno}
+	    </when>
+	    
+	    
+	    </choose>
+ 	</update>
+ 	
+ 	   <update id="likeCount">
+      update party set plike=#{plike}+1 where pno=#{pno}
+     </update>   
+     
+     <update id="pacPlus">
+     update party set pac=pac+1 where pno=#{pno}
+     
+     </update>
+     <update id="pacMinus">
+     update party set pac=pac-1 where pno=#{pno}
+     </update>
+     <update id="pscPlus">
+     update party set psc=psc+1 where pno=#{pno}
+     
+     </update>
+     
+
+     
+      <update id="psumPlus" >
+  	   update party set psum=psum+#{pattend} where pno=#{pno}
+  	   
+  	 </update>
+  	 <update id="psumMinus">
+  	   update party set psum=psum-#{pattend} where pno=#{pno}
+  	 
+  	 </update>
+  	 
+  	  	  <update id="pointSpend" >
+  	   update users set point=point-#{p.pattend} where id=#{u.id}
+  	 </update>
+  	 
+  	 <select id="map" resultType="PartyBoardVO">
+  	  select plocation1,plocation2,plocation3 from party
+  	 
+  	 </select>
+</mapper>
+ 

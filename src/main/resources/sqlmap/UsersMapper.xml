@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+  <mapper namespace="com.company.users.mapper.UsersMapper">
+    	<select id="idCheck" resultType="int">
+   		select count(*) as total from USERS where id=#{id}
+   	</select>
+     
+	<insert id="signUp">
+		insert into users(uno,id,pw,uname,email1,email2,tellnum,addrZipNum,addrBasic, addrDetail,authStatus) 
+		values(users_seq.nextval,#{id},#{pw},#{uname},#{email1},#{email2},#{tellnum},#{addrZipNum},#{addrBasic},#{addrDetail},#{authStatus})
+	</insert>
+     
+     <select id="login" resultMap="UsersResult">
+     	select * from users u left outer join iboughtthis i on
+     	u.uno = i.my_no
+     	 where id=#{id} and pw=#{pw}
+     	 order by i.this_no desc
+     </select>
+    
+     
+      <select id="myboughtthis" resultMap="UsersResult">
+     	select * from users u left outer join iboughtthis i on
+     	u.uno = i.my_no
+     	 where id=#{id} 
+     	 order by i.this_no desc
+     </select>
+     <resultMap type="UsersVO" id="UsersResult"> 	
+  	   <result property="uno" column="uno"/>
+  	   <result property="id" column="id"/>
+  	   <result property="pw" column="pw"/>
+  	   <result property="email1" column="email1"/>
+  	   <result property="email2" column="email2"/>
+  	   <result property="addrZipNum" column="addrZipNum"/>
+  	   <result property="addrBasic" column="addrBasic"/>
+  	   <result property="addrDetail" column="addrDetail"/>
+  	   <result property="regdate" column="regdate"/>
+  	   <result property="gender" column="gender"/>
+  	   
+  	   
+         <result property="uname" column="UNAME"/>
+           <result property="introduce" column="INTRODUCE" />
+         <result property="tellnum" column="TELLNUM"/>
+          <result property="regdate" column="REGDATE"/>
+              <result property="fileloca" column="FILELOCA"/>
+           <result property="filename" column="FILENAME"/>
+           <result property="point" column="point"/>
+         <collection property="list2" resultMap="iboughtthis"/>       
+     </resultMap>   
+     
+     
+     <resultMap type="IboughtthisVO" id="iboughtthis">
+       <result property="your_id" column="your_id"/>
+       <result property="my_id" column="my_id"/>
+       <result property="this_no" column="this_no"/>
+       <result property="this_regdate" column="this_regdate"/>
+       <result property="your_pno" column="your_pno"/>
+       <result property="your_pcode" column="your_pcode"/>
+       <result property="my_no" column="my_no"/>
+       <result property="your_title" column="your_title"/>
+       <result property="your_title" column="your_title"/>
+       <result property="partyattend" column="partyattend"/>
+       <result property="chargedpoint" column="chargedpoint"/>
+       
+     </resultMap>
+     
+     
+   <select id="getInfo" resultMap="info">
+  	   select        
+  	   *
+        
+       from users u left outer join party p on
+       u.id = p.pid
+       where id=#{pid}
+       order by pno desc
+  	
+  	</select>  
+  	<resultMap type="UsersVO" id="info">
+  	
+  	<result property="uno" column="uno"/>
+  	   <result property="id" column="id"/>
+         <result property="uname" column="UNAME"/>
+           <result property="introduce" column="INTRODUCE" />
+         <result property="tellnum" column="TELLNUM"/>
+          <result property="regdate" column="REGDATE"/>
+              <result property="fileloca" column="FILELOCA"/>
+           <result property="filename" column="FILENAME"/>
+         <collection property="list" resultMap="party_board"/>        
+     </resultMap>   
+  	<resultMap type="PartyBoardVO" id="party_board">
+           <result property="pno" column="PNO"/>
+            <result property="pdate" column="PDATE"/>
+           <result property="ptitle" column="PTITLE"/>
+         <result property="plocation2" column="PLOCATION2"/>
+         <result property="pattend" column="PATTEND"/>                     
+     </resultMap> 
+     
+     
+     
+        <select id="othersInfo" resultMap="info2">
+  	   select        
+  	   *
+        
+       from users u left outer Join party p on
+       u.id = p.pid
+        where id=#{id}
+       order by pno desc
+       
+       
+  	
+  	</select>  
+  	<resultMap type="UsersVO" id="info2">
+  	<result property="uno" column="uno"/>
+  	    <result property="id" column="id"/>
+  	    
+         <result property="uname" column="UNAME"/>
+               <result property="introduce" column="INTRODUCE" />
+         <result property="tellnum" column="TELLNUM"/>
+          <result property="regdate" column="REGDATE"/>
+               <result property="fileloca" column="FILELOCA"/>
+           <result property="filename" column="FILENAME"/>
+         <collection property="list" resultMap="party_board2"/>        
+     </resultMap>   
+  	<resultMap type="PartyBoardVO" id="party_board2">
+           <result property="pno" column="PNO"/>
+            <result property="pdate" column="PDATE"/>
+           <result property="ptitle" column="PTITLE"/>
+         <result property="plocation2" column="PLOCATION2"/>                     
+     </resultMap> 
+     
+     
+     
+     
+      <insert id="regist">
+       insert into sns(sno,snsid,uploadpath,fileloca,filename,filerealname,content)
+       values(snsboard_seq.nextval,#{id},#{uploadpath},#{fileloca},#{filename},#{filerealname},#{content})
+    </insert>
+    
+    
+     <select id="getList" resultType="SnsVO">
+  		select * from SNS order by sno desc
+  	</select>
+  	
+  
+  	
+
+  	
+  	<insert id="follow">
+  	   insert into follow(followno,activeuser,passiveuser) values(fol_seq.nextval,#{activeuser},#{passiveuser})
+  	</insert>
+  	
+  	<delete id="unfollow">
+  	  delete from follow where activeuser=#{activeuser} and passiveuser=#{passiveuser}
+  	</delete>
+  	
+  	<select id="isFollow" resultType="int">
+  	  select count(*) from follow where activeuser=#{activeuser} and passiveuser=#{passiveuser}
+  	</select>
+  	
+  	<select id="selectActiveUserList" resultMap="UsersResultMap">
+  	 select  fileloca,filename, activeuser,passiveuser,f.reg_date as reg_date, u.id as passiveuserid
+  	 from users u left outer join follow f
+  	 on(f.passiveuser =u.uno)
+  	 where activeuser = #{activeuser}
+  	 order by reg_date desc
+  	
+  	</select>
+  	  	<resultMap type="UsersVO" id="UsersResultMap">
+  	 <result property="uno" column="uno"/>
+  	 <result property="id" column="id"/>
+  	 <result property="pw" column="pw"/>
+  	 <result property="uname" column="uname"/>
+  	 <result property="introduce" column="introduce"/> 	
+  	 <result property="fileloca"  column="fileloca"/> 	
+  	 <result property="filename" column="filename"/> 	
+  	    	
+  	 <collection property="list3" resultMap="FollowResultMap"></collection>
+  	</resultMap>
+  	
+  		<resultMap type="FollowVO" id="FollowResultMap">
+  	  <result property="followno" column="followno"/>
+  	  <result property="activeuser" column="activeuser"/>
+  	  <result property="passiveuser" column="passiveuser"/>
+  	  <result property="regdate" column="reg_date" />
+  	  <result property="activeuserid" column="activeuserid"/>
+  	  <result property="passiveuserid" column="passiveuserid"/>
+  	  <result property="profilename" column="profilename"/>
+  	    	
+  	</resultMap>
+  	
+  	<select id="selectPassiveUserList" resultMap="UsersResultMap">
+  	 select
+  	fileloca,filename,
+  	  activeuser,
+  	  passiveuser,
+  	  f.reg_date as reg_date, u.id as activeuserid
+  	  from users u
+  	  left outer join follow f on(f.activeuser=u.uno)
+  	  where passiveuser=#{passiveuser}
+  	  order by reg_date desc
+  	
+  	</select>
+  	
+  	
+  	<delete id="deleteUserAllFollow">
+  	   delete from follow where activeuser=#{activeuser}
+  	</delete>
+  	
+  	
+   	<update id="profile_update">
+  	
+  	   update users set uname=#{uname},tellnum=#{tellnum},email1=#{email1},email2=#{email2},
+  	   addrZipNum=#{addrZipNum},
+  	   addrBasic=#{addrBasic},
+  	   addrDetail=#{addrDetail},
+  	   introduce=#{introduce},
+  	   uploadpath=#{uploadpath},
+  	   fileloca=#{fileloca},
+  	   filename=#{filename},
+  	   filerealname=#{filerealname}
+  	   
+  	   where id=#{id}
+  	
+  	</update>
+  	
+  	<select id="getprofile" resultType="UsersVO">
+  	 select *from users where id=#{id}
+  	
+  	</select>	
+  	
+  	<select id="getusers" resultType="UsersVO">
+  	 select * from users where 
+  	 <if test="searchName!=null">id like '%'||#{searchName}||'%' or uname like '%'||#{searchName}||'%' </if>
+		
+		order by uno
+  	</select>
+  	
+  	<select id="getmyparty" resultMap="myparty">
+  	 select* from 
+  	 users u left outer join iboughtthis b on
+  	 u.id = b.my_id
+  	 where id=#{my_id}
+  	 order by this_no desc;
+  	
+  	</select>
+  	  	<resultMap type="UsersVO" id="myparty">
+  	 <result property="uno" column="uno"/>
+  	 <result property="id" column="id"/>
+  	 <result property="pw" column="pw"/>
+  	 <result property="uname" column="uname"/>
+  	 <result property="introduce" column="introduce"/> 	
+  	 <result property="fileloca"  column="fileloca"/> 	
+  	 <result property="filename" column="filename"/> 	
+  	    	
+  	 <collection property="list2" resultMap="resultparty"></collection>
+  	</resultMap>
+  	 <resultMap type="IboughtthisVO" id="resultparty">
+  	 <result property="this_no" column="this_no"/>
+  	 <result property="this_regdate" column="this_regdate"/>
+  	 <result property="your_pcode" column="your_pcode"/>
+  	 <result property="your_id" column="your_id"/>
+  	 <result property="your_title" column="your_title"/>
+  	 <result property="your_pno" column="your_pno"/>
+  	 <result property="my_no" column="my_no"/>
+  	 <result property="my_id" column="my_id"/>
+  	 
+  	 </resultMap>
+  	 
+  	  <update id="pointSpend">
+  	   update users set point=point-#{p.pattend} where id=#{id.id}
+  	 </update>
+  	 
+  	 <update id="pointReturn">
+  	   update users set point=point+#{p.pattend} where id=#{id.id}
+  	 
+  	 </update>
+  	 
+  	 <update id="chargePoint">
+  	    update users set point=point+#{point}*100 where id=#{id}
+  	 </update>
+  	
+  	<update id="updateAuthstatus">
+		update users set email1=#{email1},email2=#{email2},authStatus=#{authStatus}
+   	</update>
+  	
+  </mapper>
+ 

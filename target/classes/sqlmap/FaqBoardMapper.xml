@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+  <mapper namespace="com.company.faqboard.mapper.FaqBoardMapper">
+ 
+   <select id="getlist" resultType="FaqBoardVO">
+     select * from faq
+   </select>
+    <select id="getcontent" resultType="FaqBoardVO">
+  		select * from FAQ where fno =#{fno}
+  	</select>
+  	
+  	<delete id="adminfaqDelete">
+  		delete from FAQ where fno=#{fno}
+  	</delete>
+
+
+  	<update id="adminfaqUpdate">
+		update FAQ set ask=#{ask},fcontent=#{fcontent} where fno=#{fno}
+	</update>
+	
+	  
+    <insert id="faq_regist">
+		insert into FAQ(fno,ask,fcontent)
+		values(FAQ_SEQ.NEXTVAL,#{ask},#{fcontent})
+	</insert>
+	
+  </mapper>
+ 

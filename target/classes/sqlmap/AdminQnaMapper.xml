@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.company.admin_qna.mapper.AdminQnaMapper">
+  
+  	<select id="getList" resultType="QnaBoardVO">
+       <![CDATA[
+    	 select*from(
+		 select rownum as rn,
+			a.*
+			from
+			   (select *
+			   from QNA where ]]>	
+			   
+			   <if test="searchType=='title' and searchName!=''">qtitle like '%'||#{searchName}||'%'</if>
+			   <if test="searchType=='writer' and searchName!=''">id like '%'||#{searchName}||'%'</if>
+			   <if test="searchType=='content' and searchName!=''">qcontent like '%'||#{searchName}||'%'</if>
+			   <if test="searchType=='category' and searchName!=''">category like '%'||#{searchName}||'%'</if>
+			   <if test="searchType=='noanswer'">answer is null</if>
+			   <if test="searchType==null">1=1</if>
+			   <if test="searchName=='' and searchType=='title'">1=1</if>
+			   <if test="searchName=='' and searchType==''">1=1</if>
+			   
+			   
+			   
+			  
+			    
+			   
+			   
+			   	<![CDATA[			
+			order by qno desc)  a)
+			where rn > (#{pageNum}-1)*#{amount} and  rn <= #{pageNum}*#{amount}
+           ]]>
+               
+     </select>
+  	
+  	<select id="getContent" resultType="QnaBoardVO">
+  		select * from QNA where qno =#{qno}
+  	</select>
+  	
+
+  	<update id="Update">
+		update QNA set answer=#{answer} where qno=#{qno}
+	</update>
+	
+	
+
+  	  	<!--
+
+	<insert id="Update">
+	insert into QNA(answer) values(#{answer}) where qno =#{qno}
+	</insert>
+    -->	
+
+  	<delete id="adminqnaDelete">
+  		delete from QNA where qno=#{qno}
+  	</delete>
+  	
+  	<delete id="qnamultiDel">
+  		delete from QNA where qno=#{qno}
+  	</delete>
+  
+     <select id="getTotal" resultType="int">
+        select count(*) as total from QNA
+        where    <if test="searchType=='title' and searchName!=''">qtitle like '%'||#{searchName}||'%'</if>
+			   <if test="searchType=='writer' and searchName!=''">id like '%'||#{searchName}||'%'</if>
+			   <if test="searchType=='content' and searchName!=''">qcontent like '%'||#{searchName}||'%'</if>
+			   <if test="searchType=='category' and searchName!=''">category like '%'||#{searchName}||'%'</if>
+			   <if test="searchType=='noanswer' and searchName!=''">answer is null</if>
+			   <if test="searchType==null or searchType=='' or searchName==null or searchName==''">1=1</if>
+    </select> 
+
+
+    
+  </mapper>

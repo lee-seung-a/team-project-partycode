@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.company.admin.mapper.AdminMapper">
+  
+	<select id="homeNotice" resultType="NoticeVO">
+		select * 
+		from ( select rownum rn,  n.*
+		       from ( select * 
+		                    from notice
+		                    order by regdate desc) n )
+		<![CDATA[
+		where rn <= 5
+		]]>
+	</select>
+
+	
+	<select id="homeCount" resultType="AdminDashboardVO">
+	<![CDATA[
+	select (select count(*) from users) totalusers,
+    		(select sum(plike) from party) totallike,
+			(select count(pno) from party WHERE SYSDATE < PDATE) ingfundrasing ,
+			(select count(pno) from party WHERE SYSDATE > PDATE) endfundrasing ,
+			(  (   (select count(uno) 
+					from users
+					where regdate 
+					between trunc(sysdate,'iw') and sysdate)
+			 	 - (select count(uno)
+	            	from users
+	            	where regdate 
+	            	between trunc(sysdate,'iw')-7 and trunc(sysdate,'iw')-1) )
+	         / (select CASE WHEN count(uno) = 0 THEN 1 ELSE COUNT(UNO) END
+	            from users
+	            where regdate 
+	            between trunc(sysdate,'iw')-7 and trunc(sysdate,'iw')-1) *100) usersgrowth,
+	            
+	        (  (   (select sum(plike) 
+                	from party
+                	where pregdate 
+                	between trunc(sysdate,'iw') and sysdate)
+             	-  (select sum(plike)
+                	from party
+                	where pregdate 
+                	between trunc(sysdate,'iw')-7 and trunc(sysdate,'iw')-1) )
+	         / (select CASE WHEN sum(plike)=0 THEN 1 ELSE sum(plike) END 
+                from party
+                where pregdate 
+                between trunc(sysdate,'iw')-7 and trunc(sysdate,'iw')-1) *100) likegrowth,
+                
+    		(  (   (select count(pdate) 
+                	from party
+                	where pdate 
+                	between trunc(sysdate,'iw') and sysdate)
+             	 - (select count(pdate)
+                	from party
+                	where pdate 
+                	between trunc(sysdate,'iw')-7 and trunc(sysdate,'iw')-1) )
+	         / (select CASE WHEN count(pdate)=0 THEN 1 ELSE count(pdate) END
+                from party
+                where pdate 
+                between trunc(sysdate,'iw')-7 and trunc(sysdate,'iw')-1) *100) fingrowth
+            		
+	from dual
+	]]>
+	</select>
+	
+	
+	<select id="homeTopPrivate" resultType="AdminDashboardVO">
+		<![CDATA[
+		SELECT * FROM (SELECT PTITLE
+							, TRUNC(PSUM/PGOAL*100) FUNDPERCENT
+							, PNO
+						FROM PARTY
+				        ORDER BY PLIKE desc)
+ 		WHERE ROWNUM <=5
+		]]>
+	</select>
+	
+	<!-- doughnut -->
+	<select id="homeTheme" resultType="AdminDashboardVO" >
+		SELECT PTHEME, PERCENT
+		FROM (SELECT A.*,
+	                 TRUNC( RATIO_TO_REPORT(TOTAL) OVER() * 100, 1 ) AS PERCENT,
+	                 ROWNUM AS RN
+	         FROM (SELECT PTHEME,
+	                      COUNT(PTHEME) AS TOTAL
+	                        FROM PARTY
+	                        GROUP BY PTHEME
+	                        ORDER BY TOTAL DESC
+	         ) A 
+		)
+		<![CDATA[
+		WHERE RN <=5
+		]]>
+		<!-- WHERE RN < 5
+		UNION ALL
+		SELECT '기타' as PTHEME, (
+	                             SELECT 100-SUM(PERCENT) 
+	                             FROM( SELECT PTHEME, PERCENT
+	                                   FROM (SELECT A.*,
+	                                                TRUNC( RATIO_TO_REPORT(TOTAL) OVER() * 100, 1 ) AS PERCENT,
+	                                                ROWNUM AS RN
+	                                         FROM (SELECT PTHEME,
+	                                                      COUNT(PTHEME) AS TOTAL
+	                                               FROM PARTY
+	                                               GROUP BY PTHEME
+	                                               ORDER BY TOTAL DESC
+	                                          ) A 
+	                                   )
+	                             WHERE RN < 5)
+	
+	     ) as PERCENT FROM DUAL -->
+	</select>
+  	
+  	
+  	<select id="homeRecent" resultType="AdminDashboardVO">
+	  	<![CDATA[
+	  	select * 
+	  	from (select ptitle, 
+	  				 trunc( (sysdate-pregdate)*24 ) hago, pment, pid, pno
+	  		  from party
+			  order by pno desc)
+		where rownum < 3
+	  	]]>
+  	</select>
+  
+  </mapper>
